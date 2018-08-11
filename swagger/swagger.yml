@@ -1,0 +1,211 @@
+swagger: "2.0"
+info:
+  title: SPG Test API
+  description: This API documents is created for friend management
+  version: 1.0.0
+  termsOfService: http://beego.me/
+  contact:
+    email: sbpeng2010@yahoo.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+basePath: /v1
+paths:
+  /friend/block:
+    post:
+      tags:
+      - friend
+      description: block updates from requestor email
+      operationId: FriendController.BlockUpdate
+      parameters:
+      - in: body
+        name: data
+        description: body for request content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Request'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Status'
+        "400":
+          description: bad request
+        "403":
+          description: empty argument in request body
+  /friend/create:
+    post:
+      tags:
+      - friend
+      description: create friend connection
+      operationId: FriendController.CreateFriend
+      parameters:
+      - in: body
+        name: data
+        description: body for connection emails
+        required: true
+        schema:
+          $ref: '#/definitions/models.Friends'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Status'
+        "400":
+          description: bad request
+        "403":
+          description: empty argument in request body
+  /friend/list:
+    post:
+      tags:
+      - friend
+      description: list friends for email address
+      operationId: FriendController.ListFriends
+      parameters:
+      - in: body
+        name: data
+        description: body for email
+        required: true
+        schema:
+          $ref: '#/definitions/models.Email'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+        "403":
+          description: empty argument in request body
+  /friend/listCommon:
+    post:
+      tags:
+      - friend
+      description: list common friends for two email addresses
+      operationId: FriendController.ListCommonFriends
+      parameters:
+      - in: body
+        name: data
+        description: body for two emails
+        required: true
+        schema:
+          $ref: '#/definitions/models.Friends'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: bad request
+        "403":
+          description: empty argument in request body
+  /friend/listUpdate:
+    post:
+      tags:
+      - friend
+      description: list updates from requestor email
+      operationId: FriendController.ListUpdate
+      parameters:
+      - in: body
+        name: data
+        description: body for request content
+        required: true
+        schema:
+          $ref: '#/definitions/models.RequestUpdate'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ResponseUpdate'
+        "400":
+          description: bad request
+        "403":
+          description: empty argument in request body
+  /friend/subscribe:
+    post:
+      tags:
+      - friend
+      description: subscribe updates from requestor email
+      operationId: FriendController.SubscribeUpdate
+      parameters:
+      - in: body
+        name: data
+        description: body for request content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Request'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Status'
+        "400":
+          description: bad request
+        "403":
+          description: empty argument in request body
+definitions:
+  models.Email:
+    title: Email
+    type: object
+    properties:
+      email:
+        type: string
+  models.Friends:
+    title: Friends
+    type: object
+    properties:
+      friends:
+        type: array
+        items:
+          type: string
+  models.Request:
+    title: Request
+    type: object
+    properties:
+      requestor:
+        type: string
+      target:
+        type: string
+  models.RequestUpdate:
+    title: RequestUpdate
+    type: object
+    properties:
+      sender:
+        type: string
+      text:
+        type: string
+  models.Response:
+    title: Response
+    type: object
+    properties:
+      count:
+        type: integer
+        format: int64
+      friends:
+        type: array
+        items:
+          type: string
+      status:
+        $ref: '#/definitions/models.Status'
+  models.ResponseUpdate:
+    title: ResponseUpdate
+    type: object
+    properties:
+      recipients:
+        type: array
+        items:
+          type: string
+      status:
+        $ref: '#/definitions/models.Status'
+  models.Status:
+    title: Status
+    type: object
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+tags:
+- name: friend
+  description: |
+    Operations about Friends Management
